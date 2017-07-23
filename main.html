@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>BoOm</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="container-fluid">
+
+  <div class="logo">
+    <img src="Bilder/boom.png" alt="Logo">
+  </div>
+
+  <div class="start-stop">
+    <button id="play-pause" type="button" onclick="play-pause-click" class="btn btn-lg btn-info">Play</button>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-4">
+    </div>
+    <div class="col-xs-4">
+      <div class="progress myprogress">
+        <div id="myprogressbar" class="progress-bar" role="progressbar" style="width: 25%"></div>
+      </div>
+    </div>
+    <div class="col-xs-4 container-half-img">
+       <img id="next-image" class="half-img" src="Bilder/Beispiel.png" width="150" alt="Play next">
+    </div>
+  </div>
+
+  <div class="container-play-now">
+    <img id="curr-image" src="Bilder/Beispiel.png" width="300" alt="Play now">
+  </div>
+
+</div>
+</body>
+</html>
