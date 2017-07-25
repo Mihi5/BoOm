@@ -23,14 +23,16 @@ table {
 .logo {
   text-align: center;
   height: 15%;
-  min-height: 70px;
 }
 .buttons {
   height: 10%;
   text-align: center;
 }
 .pd {
-  padding-right: 20px;
+  margin-top: 8%;
+}
+.pd2 {
+  padding-right: 2%;
 }
 
 #table1, #table2 {

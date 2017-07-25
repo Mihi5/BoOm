@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="index_files/style.css"/>
+  <script type="text/javascript" src="index_files/script.js"></script>
 </head>
 <body>
 <div id="main" class="container-fluid">
@@ -32,7 +33,7 @@
 
   <div class="buttons row">
     <div class="col-xs-2">
-      <button id="play-pause" type="button" onclick="play-pause-click" class="btn btn-lg btn-info">Play</button>
+      <button id="play-pause" type="button" onclick="play-pause-click" class="pd btn btn-lg btn-info">Play</button>
     </div>
     <div class="col-xs-2">
     </div>
@@ -41,7 +42,7 @@
     </div>
     <div class="col-xs-2">
     </div>
-    <div class="col-xs-2 pd">
+    <div class="col-xs-2 pd2">
       <h4>speed</h4>
       <input type="range" min="1" max="100" step="1" name="rating" />
     </div>
@@ -61,18 +62,5 @@
   </div>
 
 </div>
-
-<script>
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-}
-</script>
-
 </body>
 </html>
