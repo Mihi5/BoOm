@@ -6,20 +6,25 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="index_files/style.css"/>
-  <script type="text/javascript" src="index_files/script.js"></script>
+  <link rel="stylesheet" href="index_files/styles.css"/>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="index_files/songs.js"></script>
+  <script type="text/javascript" src="index_files/scripts.js"></script>
+  <link rel="icon" type="image/png" href="index_files/pics/favicon.ico" >
 </head>
 <body>
 <div id="main" class="container-fluid">
 
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Home</a>
+    <a href="#" onclick="alert()">Home</a>
     <a href="#">Songs</a>
     <a href="#">Create</a>
     <a href="#">Contact</a>
   </div>
 
   <div id="mHeader">
+
     <div class="row">
       <div class="col-xs-4">
       </div>
@@ -35,10 +40,10 @@
 
     <div class="buttons row">
       <div class="col-xs-2">
-        <button id="play-pause" type="button" onclick="play-pause-click" class="pd btn btn-lg btn-info">Play</button>
+        <button id="play-pause" type="button" onclick="play_pause_click()" class="pd btn btn-lg btn-info">Play</button>
       </div>
       <div class="col-xs-2">
-        <button id="slide" type="button" onclick="play-slides()" class="pd btn btn-lg btn-success">Slide</button>
+        <button id="slide" type="button" onclick="play_slides()" class="pd btn btn-lg btn-success">Slide</button>
       </div>
       <div class="col-xs-4">
         <h1>"Name of the Song"</h1>
@@ -50,7 +55,9 @@
         <input type="range" min="1" max="100" step="1" name="rating" />
       </div>
     </div>
+
     <div id="mArrows"></div>
+
   </div>
 
   <div id="mTable"></div>
