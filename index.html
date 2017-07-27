@@ -19,48 +19,41 @@
     <a href="#">Contact</a>
   </div>
 
-  <div class="row">
-    <div class="col-xs-4">
+  <div id="mHeader">
+    <div class="row">
+      <div class="col-xs-4">
+      </div>
+      <div class="col-xs-4">
+        <img src="index_files/pics/logo.png" alt="Logo">
+      </div>
+      <div class="col-xs-3">
+      </div>
+      <div class="col-xs-1">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+      </div>
     </div>
-    <div class="col-xs-4">
-      <img src="index_files/pics/logo.png" alt="Logo">
-    </div>
-    <div class="col-xs-3">
-    </div>
-    <div class="col-xs-1">
-      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-    </div>
-  </div>
 
-  <div class="buttons row">
-    <div class="col-xs-2">
-      <button id="play-pause" type="button" onclick="play-pause-click" class="pd btn btn-lg btn-info">Play</button>
-    </div>
-    <div class="col-xs-2">
-    </div>
-    <div class="col-xs-4">
+    <div class="buttons row">
+      <div class="col-xs-2">
+        <button id="play-pause" type="button" onclick="play-pause-click" class="pd btn btn-lg btn-info">Play</button>
+      </div>
+      <div class="col-xs-2">
+        <button id="slide" type="button" onclick="play-slides()" class="pd btn btn-lg btn-success">Slide</button>
+      </div>
+      <div class="col-xs-4">
         <h1>"Name of the Song"</h1>
+      </div>
+      <div class="col-xs-2">
+      </div>
+      <div class="col-xs-2 pd2">
+        <h4>speed</h4>
+        <input type="range" min="1" max="100" step="1" name="rating" />
+      </div>
     </div>
-    <div class="col-xs-2">
-    </div>
-    <div class="col-xs-2 pd2">
-      <h4>speed</h4>
-      <input type="range" min="1" max="100" step="1" name="rating" />
-    </div>
-   </div>
-
-
-  <div id="table1" class="bor1">
-    <table>
-      <tr><td>HI!!!</td></tr>
-    </table>
+    <div id="mArrows"></div>
   </div>
 
-  <div id="table2" class="bor2">
-    <table>
-      <tr><td>HI</td></tr>
-    </table>
-  </div>
+  <div id="mTable"></div>
 
 </div>
 </body>
