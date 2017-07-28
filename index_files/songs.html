@@ -1,0 +1,62 @@
+<html>
+<head>
+  <title>Songs</title>
+  <link rel="icon" href="pics/songs.ico">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="songs.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+</head>
+<body>
+
+  <div id="main" class="container-fluid">
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="../index.html">Home</a>
+      <a href="songs.html">Songs</a>
+      <a href="">Create</a>
+      <a href="">Contact</a>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-3">
+        <img id="Logo" src="pics/logo.png" alt="Logo">
+      </div>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-4">
+        <h1 id="Songtitle" class="text-center">Songs</h1>
+      </div>
+      <div class="col-xs-3"></div>
+      <div class="col-xs-1">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div id="mihi"></div>
+    </div>
+
+  </div>
+
+    <script>
+      var songs = ["Can Can", "Drunken Sailor",  "Melodie 1",
+                  "Ode an die Freude", "The lion sleep to night"];
+      var songsLen = songs.length;
+
+      function mihi() {
+        var filler = '<table>';
+        for (var i = 0; i < songsLen; i++) {
+          filler+= '<tr><td><h3>' + songs[i] + '</h3></td></tr>'
+          }
+        filler += '</table>';
+        document.getElementById('mihi').innerHTML=filler;
+        }
+      document.onload = mihi();
+    </script>
+
+</body>
+</html>
