@@ -253,7 +253,6 @@ function set_looping (value) {
 
 // Sidenav scripts
 var sideNavOn = 0;
-
 function openNav() {
   if(sideNavOn === 0){
     getId("mySidenav").style.width = "250px";
