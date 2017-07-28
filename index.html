@@ -32,29 +32,33 @@
           <img src="index_files/pics/logo.png" alt="Logo">
         </td>
         <td style="width: auto">
-          <!--<select style="position: absolute; margin-left: 0" id="song-select" onchange="change_song(this.value)">
-            <option value="">Choose a song!</option>
-            <option value="test1">test1</option>
-            <option value="test2">test2</option>
-            <option value="test3">test3</option>
-            <option value="drunken_sailor">drunken_sailor</option>
-            <option value="can_can">can_can</option>
-            <option value="melodie1">melodie1</option>
-            <option value="ode_an_die_freude">ode_an_die_freude</option>
-            <option value="the_lion_sleeps_tonight">the_lion_sleeps_tonight</option>
-          </select>-->
-          <span id="song-name">---Choose a Song---</span>
+          <div class="form-group" style="padding-top:15px">
+            <select id="song-name" class="form-control" onchange="change_song(this.value)">
+              <option value="test1">test1</option>
+              <option value="test2">test2</option>
+              <option value="test3">test3</option>
+              <option value="drunken_sailor">drunken_sailor</option>
+              <option value="can_can">can_can</option>
+              <option value="melodie1">melodie1</option>
+              <option value="ode_an_die_freude">ode_an_die_freude</option>
+              <option selected value="the_lion_sleeps_tonight">the_lion_sleeps_tonight</option>
+            </select>
+          </div>
         </td>
         <td style="width: 10%">
-          <button id="play-pause" type="button" onclick="play_pause_click()" class="pd btn btn-lg btn-info">Play</button>
-          <button id="slide" type="button" onclick="play_slides()" class="pd btn btn-lg btn-success">Slide</button>
+          <button id="play-pause" type="button" onclick="play_slides()" style="width: 100px" class="pd btn btn-lg">Play</button>
         </td>
         <td style="width: 10%">
-          <input type="checkbox">loop all<br />
-          <input type="checkbox">loop single
+          <div class="form-group" style="padding-top:25px">
+            <select id="looping" class="form-control" onchange="set_looping(this.value)">
+              <option value="none">loop: none</option>
+              <option value="tact">loop: tact</option>
+              <option value="song">loop: song</option>
+            </select>
+          </div>
         </td>
         <td style="width: 10%">
-          Tempo:<input id="tempo-slider" type="range" min="1" max="100" step="1" name="rating" />
+          tempo: <span id="tempo">50</span><input id="tempo-slider" type="range" min="1" max="100" step="1" value="50" oninput="vary_speed(value)" />
         </td>
         <td style="width: 5%">
           <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
@@ -62,8 +66,6 @@
       </tr>
 
     </table>
-
-
 
     <div id="mArrows"></div>
 

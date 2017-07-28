@@ -17,6 +17,9 @@ html, body{
   width: 100px;
   margin: auto;
 }
+#tempo-slider .slider-selection {
+  background: #BABABA;
+}
 #mHeader {
   position: fixed;
   left: 0;
@@ -31,8 +34,8 @@ html, body{
 }
 #song-name {
   font-family: Lobster, Monospace;
-  font-size: 36px;
-  margin: 0;
+  font-size: 32px;
+  height: 50px;
 }
 #mArrows {
   height: 60px;

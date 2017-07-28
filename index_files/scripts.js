@@ -1,32 +1,53 @@
-var currSong = drunken_sailor;
-
-// song params
+var currSong = '';
 var speed = 150;
-var currSongLength = currSong.length;
-var currSongVoices = currSong[0].length;
-var currSongTimes = currSong[0][0].length;
-
-var currTact = 0;
-var currTime = 0;
-var scrollSpeed = speed;
 var eLoop = {
 	none: 0,
 	tact: 1,
 	song: 2.
 };
+var currSongLength;
+var currSongVoices;
+var currSongTimes;
+
+var currTact = 0;
+var currTime = 0;
 var looping = eLoop.none;
+var running = false;
 
 // calculate sizes on screen
-var tdSizeNorm = 1010/currSongTimes;
-var tdSizeBigger = 1300/currSongTimes;
-var imgSizeNorm = 1000/currSongTimes;
-var imgSizeBigger = 1400/currSongTimes;
+var tdSizeNorm;
+var tdSizeBigger;
+var imgSizeNorm;
+var imgSizeBigger;
 
 // calculate offsets
-var imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
-var imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
-var imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
-var imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
+var imgOffsetTopNorm;
+var imgOffsetLeftNorm;
+var imgOffsetTopBigger;
+var imgOffsetLeftBigger;
+
+// set dimensions based on the song
+function set_sizes() {
+	currSongLength = currSong.length;
+	currSongVoices = currSong[0].length;
+	currSongTimes = currSong[0][0].length;
+
+	currTact = 0;
+	currTime = 0;
+	looping = eLoop.none;
+
+	// calculate sizes on screen
+	tdSizeNorm = 1010/currSongTimes;
+	tdSizeBigger = 1300/currSongTimes;
+	imgSizeNorm = 1000/currSongTimes;
+	imgSizeBigger = 1400/currSongTimes;
+
+	// calculate offsets
+	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
+	imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
+	imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
+	imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
+}
 
 function getId (id){
 	return document.getElementById(id);
@@ -78,7 +99,7 @@ function show(col) {
 			toBePlayed[i] = getId(mId).alt;
 		}
 	}
-	console.log('will play: ' + toBePlayed);
+	//console.log('will play: ' + toBePlayed);
 	play_sound(toBePlayed[0],toBePlayed[1],toBePlayed[2],toBePlayed[3]);
 }
 
@@ -98,7 +119,9 @@ function hide(col, lastTact = false) {
 	}
 }
 
-function play_pause_click () {
+function change_song (song) {
+	currSong = window[song];
+	set_sizes();
 	var filler = '';
 
 	// arrows
@@ -161,19 +184,20 @@ function next_slide() {
 	}
 	$('html, body').animate({
 		scrollTop: parseInt($('#t' + currTact).offset().top - 70)
-	}, scrollSpeed);
+	}, speed);
 	 getId('t' + currTact).classList.remove("faded");
 }
 
 function play() {
-	if (!looping)
+	if (!running) {
 		return;
+	}
 	show(currTime);
 	var mHide;
 	if ((currTime - 1) < 0) {
 		hide(currSongTimes - 1, true);
 	} else {
-		hide(currTime - 1)
+		hide(currTime - 1);
 	}
 	currTime++;
 	if (currTime == currSongTimes) {
@@ -184,8 +208,17 @@ function play() {
 }
 
 function play_slides() {
-	looping = !looping;
+	running = !running;
+	if (currSong === '') {
+		change_song(getId('song-name').value);
+	}
+	getId('play-pause').innerHTML = (running) ? "Pause": "Play";
 	play();
+}
+
+function vary_speed(value) {
+	speed = 700 - (value)*6.5;
+	getId('tempo').innerHTML = value;
 }
 
 // Sidenav scripts
