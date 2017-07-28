@@ -28,10 +28,8 @@ var imgOffsetLeftBigger;
 
 // redraw the slider on refresh
 $(document).ready(function(){
-	$('#tempo').val = 85;
-	document.querySelector('input[type=range]').value = 85;
-	looping = eLoop[getId('looping').value];
-	console.log(looping);
+	getId('tempo-slider').value = 85;
+	getId('looping').value = "none";
 });
 
 // set image dimensions based on the song
@@ -44,11 +42,11 @@ function set_sizes() {
 	currTime = 0;
 	looping = eLoop.none;
 
-	// calculate sizes on screen
-	tdSizeNorm = 1010/currSongTimes;
-	tdSizeBigger = 1300/currSongTimes;
-	imgSizeNorm = 1000/currSongTimes;
-	imgSizeBigger = 1400/currSongTimes;
+	var wH = window.innerHeight;
+	tdSizeNorm = 0.8 * (wH - 250) / (2 * currSongVoices);
+	tdSizeBigger = (wH - 250) / (2 * currSongVoices);
+	imgSizeNorm = 0.75 * (wH - 250) / (2 * currSongVoices);
+	imgSizeBigger = 0.95 * (wH - 250) / (2 * currSongVoices);
 
 	// calculate offsets
 	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
@@ -195,13 +193,13 @@ function next_slide() {
 	currTact++;
 	// end of the song reached
 	if (currTact == currSongLength) {
+		currTact = currSongLength - 1;
+		hide(currSongTimes - 1);
 		currTact = 0;
 		if (looping != eLoop.song) {
 			running = false;
-			currTact = currSongLength - 1;
-			hide(currSongTimes - 1);
-			currTact = 0;
-			getId('play-pause').innerHTML = "Play";
+			$('#play-pause').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
+			//getId('play-pause').innerHTML = "Play";
 		}
 	}
 	$('html, body').animate({
@@ -238,7 +236,8 @@ function play_slides() {
 	if (currSong === '') {
 		change_song(getId('song-name').value);
 	}
-	getId('play-pause').innerHTML = (running) ? "Pause": "Play";
+	$('#play-pause').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
+	//getId('play-pause').innerHTML = (running) ? "Pause": "Play";
 	play();
 }
 

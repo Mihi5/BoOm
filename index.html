@@ -46,13 +46,15 @@
             </select>
           </div>
         </td>
-        <td style="width: 10%">
-          <button id="play-pause" type="button" onclick="play_slides()" style="width: 100px" class="pd btn btn-lg">Play</button>
+        <td style="width: 10%; text-align: left">
+          <button type="button" onclick="play_slides()" style="width: 100px" class="pd btn btn-lg btn-default">
+            <span id="play-pause" class="glyphicon glyphicon-play"></span>
+          </button>
         </td>
-        <td style="width: 10%">
-          <div class="form-group" style="padding-top:25px">
-            <select id="looping" class="form-control" onchange="set_looping(this.value)">
-              <option selected value="none">loop: none</option>
+          <td style="width: 10%;">
+          <div class="form-group" style="padding-top:25px;">
+            <select id="looping" class="form-control" onchange="set_looping(this.value)" style="width: 120px">
+              <option value="none">loop: none</option>
               <option value="tact">loop: tact</option>
               <option value="song">loop: song</option>
             </select>
