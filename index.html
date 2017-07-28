@@ -17,7 +17,7 @@
 
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#" onclick="alert()">Home</a>
+    <a href="#">Home</a>
     <a href="#">Songs</a>
     <a href="#">Create</a>
     <a href="#">Contact</a>
@@ -25,36 +25,45 @@
 
   <div id="mHeader">
 
-    <div class="row">
-      <div class="col-xs-4">
-      </div>
-      <div class="col-xs-4">
-        <img src="index_files/pics/logo.png" alt="Logo">
-      </div>
-      <div class="col-xs-3">
-      </div>
-      <div class="col-xs-1">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-      </div>
-    </div>
+    <table id="headTable">
 
-    <div class="buttons row">
-      <div class="col-xs-2">
-        <button id="play-pause" type="button" onclick="play_pause_click()" class="pd btn btn-lg btn-info">Play</button>
-      </div>
-      <div class="col-xs-2">
-        <button id="slide" type="button" onclick="play_slides()" class="pd btn btn-lg btn-success">Slide</button>
-      </div>
-      <div class="col-xs-4">
-        <h1>"Name of the Song"</h1>
-      </div>
-      <div class="col-xs-2">
-      </div>
-      <div class="col-xs-2 pd2">
-        <h4>speed</h4>
-        <input type="range" min="1" max="100" step="1" name="rating" />
-      </div>
-    </div>
+      <tr>
+        <td style="width: 32.5%; text-align: left">
+          <img src="index_files/pics/logo.png" alt="Logo">
+        </td>
+        <td style="width: auto">
+          <!--<select style="position: absolute; margin-left: 0" id="song-select" onchange="change_song(this.value)">
+            <option value="">Choose a song!</option>
+            <option value="test1">test1</option>
+            <option value="test2">test2</option>
+            <option value="test3">test3</option>
+            <option value="drunken_sailor">drunken_sailor</option>
+            <option value="can_can">can_can</option>
+            <option value="melodie1">melodie1</option>
+            <option value="ode_an_die_freude">ode_an_die_freude</option>
+            <option value="the_lion_sleeps_tonight">the_lion_sleeps_tonight</option>
+          </select>-->
+          <span id="song-name">---Choose a Song---</span>
+        </td>
+        <td style="width: 10%">
+          <button id="play-pause" type="button" onclick="play_pause_click()" class="pd btn btn-lg btn-info">Play</button>
+          <button id="slide" type="button" onclick="play_slides()" class="pd btn btn-lg btn-success">Slide</button>
+        </td>
+        <td style="width: 10%">
+          <input type="checkbox">loop all<br />
+          <input type="checkbox">loop single
+        </td>
+        <td style="width: 10%">
+          Tempo:<input id="tempo-slider" type="range" min="1" max="100" step="1" name="rating" />
+        </td>
+        <td style="width: 5%">
+          <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+        </td>
+      </tr>
+
+    </table>
+
+
 
     <div id="mArrows"></div>
 

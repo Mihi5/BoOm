@@ -5,6 +5,18 @@ html, body{
   margin: 0;
   padding: 0;
 }
+#headTable {
+  width: 100%;
+  text-align: center;
+}
+#headTable td {
+  vertical-align: middle;
+  text-align: center;
+}
+#tempo-slider {
+  width: 100px;
+  margin: auto;
+}
 #mHeader {
   position: fixed;
   left: 0;
@@ -14,9 +26,16 @@ html, body{
   z-index: 1;
   transition: margin-left .5s;
 }
+#main {
+    transition: margin-left .5s;
+}
+#song-name {
+  font-family: Lobster, Monospace;
+  font-size: 36px;
+  margin: 0;
+}
 #mArrows {
   height: 60px;
-  margin-top: 20px;
   background-color: rgba(200, 200, 255, 0.5);
 }
 #mArrows img {
@@ -29,7 +48,7 @@ table {
 }
 #mTable {
   width: 100%;
-  margin-top: 120px;
+  margin-top: 60px;
   text-align: center;
 }
 #mTable img {
@@ -53,3 +72,40 @@ td img {
 .not-shown {
   visibility: hidden;
 }
+
+/* Sidenav styles */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* Sidenav styles end */
