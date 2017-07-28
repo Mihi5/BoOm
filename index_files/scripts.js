@@ -1,37 +1,67 @@
-var currSong = drunken_sailor;
-
-// song params
+var currSong = '';
 var speed = 150;
-var currSongLength = currSong.length;
-var currSongVoices = currSong[0].length;
-var currSongTimes = currSong[0][0].length;
-
-var currTact = 0;
-var currTime = 0;
-var scrollSpeed = speed;
 var eLoop = {
 	none: 0,
 	tact: 1,
 	song: 2.
 };
+var currSongLength;
+var currSongVoices;
+var currSongTimes;
+
+var currTact = 0;
+var currTime = 0;
 var looping = eLoop.none;
+var running = false;
 
 // calculate sizes on screen
-var tdSizeNorm = 1010/currSongTimes;
-var tdSizeBigger = 1300/currSongTimes;
-var imgSizeNorm = 1000/currSongTimes;
-var imgSizeBigger = 1400/currSongTimes;
+var tdSizeNorm;
+var tdSizeBigger;
+var imgSizeNorm;
+var imgSizeBigger;
 
 // calculate offsets
-var imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
-var imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
-var imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
-var imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
+var imgOffsetTopNorm;
+var imgOffsetLeftNorm;
+var imgOffsetTopBigger;
+var imgOffsetLeftBigger;
+
+// redraw the slider on refresh
+$(document).ready(function(){
+	$('#tempo').val = 85;
+	document.querySelector('input[type=range]').value = 85;
+	looping = eLoop[getId('looping').value];
+	console.log(looping);
+});
+
+// set image dimensions based on the song
+function set_sizes() {
+	currSongLength = currSong.length;
+	currSongVoices = currSong[0].length;
+	currSongTimes = currSong[0][0].length;
+
+	currTact = 0;
+	currTime = 0;
+	looping = eLoop.none;
+
+	// calculate sizes on screen
+	tdSizeNorm = 1010/currSongTimes;
+	tdSizeBigger = 1300/currSongTimes;
+	imgSizeNorm = 1000/currSongTimes;
+	imgSizeBigger = 1400/currSongTimes;
+
+	// calculate offsets
+	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
+	imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
+	imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
+	imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
+}
 
 function getId (id){
 	return document.getElementById(id);
 }
 
+// plays up to 4 sounds simultaneously
 function play_sound(s0, s1, s2, s3) {
 	var snd0;	var snd1; var snd2; var snd3;
 
@@ -64,6 +94,7 @@ function play_sound(s0, s1, s2, s3) {
 	}
 }
 
+// shows an arrow and grows the respective row
 function show(col) {
 	getId('arr' + col).style.visibility = 'visible';
 
@@ -78,10 +109,11 @@ function show(col) {
 			toBePlayed[i] = getId(mId).alt;
 		}
 	}
-	console.log('will play: ' + toBePlayed);
+	//console.log('will play: ' + toBePlayed);
 	play_sound(toBePlayed[0],toBePlayed[1],toBePlayed[2],toBePlayed[3]);
 }
 
+// hides an arrow and normalize the respective row
 function hide(col, lastTact = false) {
 	var mTact = (lastTact == false)? currTact: (currTact -1);
 	if (mTact < 0)
@@ -98,7 +130,10 @@ function hide(col, lastTact = false) {
 	}
 }
 
-function play_pause_click () {
+// redraw the table with the notes
+function change_song (song) {
+	currSong = window[song];
+	set_sizes();
 	var filler = '';
 
 	// arrows
@@ -150,42 +185,70 @@ function play_pause_click () {
 
 	getId('mTable').innerHTML = filler;
 	getId('t0').classList.remove("faded");
+	window.scrollTo(0, 0);
 }
 
+// advance to the next tact
 function next_slide() {
 	//window.scrollBy(0, currSongVoices*tdSizeNorm + 100);
 	getId('t' + currTact).classList.add("faded");
 	currTact++;
+	// end of the song reached
 	if (currTact == currSongLength) {
 		currTact = 0;
+		if (looping != eLoop.song) {
+			running = false;
+			currTact = currSongLength - 1;
+			hide(currSongTimes - 1);
+			currTact = 0;
+			getId('play-pause').innerHTML = "Play";
+		}
 	}
 	$('html, body').animate({
 		scrollTop: parseInt($('#t' + currTact).offset().top - 70)
-	}, scrollSpeed);
+	}, speed);
 	 getId('t' + currTact).classList.remove("faded");
 }
 
+// recursive play
 function play() {
-	if (!looping)
+	if (!running) {
 		return;
+	}
 	show(currTime);
 	var mHide;
 	if ((currTime - 1) < 0) {
 		hide(currSongTimes - 1, true);
 	} else {
-		hide(currTime - 1)
+		hide(currTime - 1);
 	}
 	currTime++;
 	if (currTime == currSongTimes) {
 		currTime = 0;
-		next_slide();
+		if (looping != eLoop.tact) {
+			next_slide();
+		}
 	}
 	setTimeout(play, speed);
 }
 
+// start/stop the playback
 function play_slides() {
-	looping = !looping;
+	running = !running;
+	if (currSong === '') {
+		change_song(getId('song-name').value);
+	}
+	getId('play-pause').innerHTML = (running) ? "Pause": "Play";
 	play();
+}
+
+function vary_speed(value) {
+	speed = 700 - (value)*6.5;
+	getId('tempo').innerHTML = value;
+}
+
+function set_looping (value) {
+	looping = eLoop[value];
 }
 
 // Sidenav scripts
@@ -212,4 +275,3 @@ function closeNav() {
     getId("mHeader").style.marginLeft = "0";
     sideNavOn = 0
 }
-// sidenav scripts end
