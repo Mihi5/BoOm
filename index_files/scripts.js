@@ -36,28 +36,28 @@ function play_sound(s0, s1, s2, s3) {
 	var snd0;	var snd1; var snd2; var snd3;
 
 	if (s0 != '') {
-		snd0 = new Audio('index_files/PizzStr/' + s0 + '.ogg');
+		snd0 = new Audio('index_files/sound/PizzStr/' + s0 + '.ogg');
 		//console.log('s0: ' + s0 + '.ogg');
 		snd0.mediaGroup = 'soundGroup';
 		snd0.play();
 	}
 
 	if (s1 != '') {
-		snd1 = new Audio('index_files/PizzStr/' + s1 + '.ogg');
+		snd1 = new Audio('index_files/sound/PizzStr/' + s1 + '.ogg');
 		//console.log('s1: ' + s1 + '.ogg');
 		snd1.mediaGroup = 'soundGroup';
 		snd1.play();
 	}
 
 	if (s2 != '') {
-		snd2 = new Audio('index_files/PizzStr/' + s2 + '.ogg');
+		snd2 = new Audio('index_files/sound/PizzStr/' + s2 + '.ogg');
 		//console.log('s2: ' + s2 + '.ogg');
 		snd2.mediaGroup = 'soundGroup';
 		snd2.play();
 	}
 
 	if (s3 != '') {
-		snd3 = new Audio('index_files/PizzStr/' + s3 + '.ogg');
+		snd3 = new Audio('index_files/sound/PizzStr/' + s3 + '.ogg');
 		//console.log('s3: ' + s3 + '.ogg');
 		snd3.mediaGroup = 'soundGroup';
 		snd3.play();
