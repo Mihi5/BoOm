@@ -29,7 +29,7 @@
 
       <tr>
         <td style="width: 32.5%; text-align: left">
-          <img src="index_files/pics/logo.png" alt="Logo">
+          <img style="width: 80%" src="index_files/pics/logo.png" alt="Logo">
         </td>
         <td style="width: auto">
           <div class="form-group" style="padding-top:15px">
@@ -37,11 +37,12 @@
               <option value="test1">test1</option>
               <option value="test2">test2</option>
               <option value="test3">test3</option>
-              <option value="drunken_sailor">drunken_sailor</option>
-              <option value="can_can">can_can</option>
-              <option value="melodie1">melodie1</option>
-              <option value="ode_an_die_freude">ode_an_die_freude</option>
-              <option selected value="the_lion_sleeps_tonight">the_lion_sleeps_tonight</option>
+              <option value="drunken_sailor">Drunken Sailor</option>
+              <option value="can_can">Can Can</option>
+              <option value="melodie1">Melodie 1</option>
+              <option value="ode_an_die_freude">Ode An Die Freude</option>
+              <option value="the_lion_sleeps_tonight">The Lion Sleeps Tonight</option>
+              <option value="we_wish_you_a_merry_christmas">We Wish You A Merry Christmas</option>
             </select>
           </div>
         </td>
@@ -51,14 +52,14 @@
         <td style="width: 10%">
           <div class="form-group" style="padding-top:25px">
             <select id="looping" class="form-control" onchange="set_looping(this.value)">
-              <option value="none">loop: none</option>
+              <option selected value="none">loop: none</option>
               <option value="tact">loop: tact</option>
               <option value="song">loop: song</option>
             </select>
           </div>
         </td>
         <td style="width: 10%">
-          tempo: <span id="tempo">50</span><input id="tempo-slider" type="range" min="1" max="100" step="1" value="50" oninput="vary_speed(value)" />
+          tempo: <span id="tempo">85</span><input id="tempo-slider" name="slider" type="range" min="1" max="100" step="1" value="85" oninput="vary_speed(value)" />
         </td>
         <td style="width: 5%">
           <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>

@@ -26,7 +26,15 @@ var imgOffsetLeftNorm;
 var imgOffsetTopBigger;
 var imgOffsetLeftBigger;
 
-// set dimensions based on the song
+// redraw the slider on refresh
+$(document).ready(function(){
+	$('#tempo').val = 85;
+	document.querySelector('input[type=range]').value = 85;
+	looping = eLoop[getId('looping').value];
+	console.log(looping);
+});
+
+// set image dimensions based on the song
 function set_sizes() {
 	currSongLength = currSong.length;
 	currSongVoices = currSong[0].length;
@@ -53,6 +61,7 @@ function getId (id){
 	return document.getElementById(id);
 }
 
+// plays up to 4 sounds simultaneously
 function play_sound(s0, s1, s2, s3) {
 	var snd0;	var snd1; var snd2; var snd3;
 
@@ -85,6 +94,7 @@ function play_sound(s0, s1, s2, s3) {
 	}
 }
 
+// shows an arrow and grows the respective row
 function show(col) {
 	getId('arr' + col).style.visibility = 'visible';
 
@@ -103,6 +113,7 @@ function show(col) {
 	play_sound(toBePlayed[0],toBePlayed[1],toBePlayed[2],toBePlayed[3]);
 }
 
+// hides an arrow and normalize the respective row
 function hide(col, lastTact = false) {
 	var mTact = (lastTact == false)? currTact: (currTact -1);
 	if (mTact < 0)
@@ -119,6 +130,7 @@ function hide(col, lastTact = false) {
 	}
 }
 
+// redraw the table with the notes
 function change_song (song) {
 	currSong = window[song];
 	set_sizes();
@@ -173,14 +185,24 @@ function change_song (song) {
 
 	getId('mTable').innerHTML = filler;
 	getId('t0').classList.remove("faded");
+	window.scrollTo(0, 0);
 }
 
+// advance to the next tact
 function next_slide() {
 	//window.scrollBy(0, currSongVoices*tdSizeNorm + 100);
 	getId('t' + currTact).classList.add("faded");
 	currTact++;
+	// end of the song reached
 	if (currTact == currSongLength) {
 		currTact = 0;
+		if (looping != eLoop.song) {
+			running = false;
+			currTact = currSongLength - 1;
+			hide(currSongTimes - 1);
+			currTact = 0;
+			getId('play-pause').innerHTML = "Play";
+		}
 	}
 	$('html, body').animate({
 		scrollTop: parseInt($('#t' + currTact).offset().top - 70)
@@ -188,6 +210,7 @@ function next_slide() {
 	 getId('t' + currTact).classList.remove("faded");
 }
 
+// recursive play
 function play() {
 	if (!running) {
 		return;
@@ -202,11 +225,14 @@ function play() {
 	currTime++;
 	if (currTime == currSongTimes) {
 		currTime = 0;
-		next_slide();
+		if (looping != eLoop.tact) {
+			next_slide();
+		}
 	}
 	setTimeout(play, speed);
 }
 
+// start/stop the playback
 function play_slides() {
 	running = !running;
 	if (currSong === '') {
@@ -219,6 +245,10 @@ function play_slides() {
 function vary_speed(value) {
 	speed = 700 - (value)*6.5;
 	getId('tempo').innerHTML = value;
+}
+
+function set_looping (value) {
+	looping = eLoop[value];
 }
 
 // Sidenav scripts
@@ -244,4 +274,3 @@ function closeNav() {
     getId("mHeader").style.marginLeft = "0";
     sideNavOn = 0
 }
-// sidenav scripts end
