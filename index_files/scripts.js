@@ -1,4 +1,5 @@
-var currSong = '';
+var songObj;
+var currSong ='';
 var speed = 150;
 var eLoop = {
 	none: 0,
@@ -14,13 +15,13 @@ var currTime = 0;
 var looping = eLoop.none;
 var running = false;
 
-// calculate sizes on screen
+// to calculate sizes on screen
 var tdSizeNorm;
 var tdSizeBigger;
 var imgSizeNorm;
 var imgSizeBigger;
 
-// calculate offsets
+// to calculate offsets
 var imgOffsetTopNorm;
 var imgOffsetLeftNorm;
 var imgOffsetTopBigger;
@@ -30,7 +31,66 @@ var imgOffsetLeftBigger;
 $(document).ready(function(){
 	getId('tempo-slider').value = 85;
 	getId('looping').value = "none";
+	fill_songs();
 });
+
+// export song as downloadable JSON
+function download() {
+	var currName = getId('song-name').value;
+	var dataStr = "data:text/json;charset=utf-8," +
+		encodeURIComponent(JSON.stringify(getObjects(songObj, 'name', currName)[0]));
+
+	var dlAnchorElem = getId('download');
+	dlAnchorElem.setAttribute('href',     dataStr     );
+	dlAnchorElem.setAttribute('download', currName + '.json');
+	dlAnchorElem.click();
+}
+
+// read a file
+function file_read() {
+  var file = getId('mFile').files[0];
+  if (file) {
+		var reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = file_loaded;
+  }
+}
+
+// gets triggered on the file read event
+function file_loaded(evt) {
+  var fileString = evt.target.result;
+	var newJSON;
+	try {
+		newJSON = JSON.parse(fileString);
+	} catch (e) {
+		alert("Not properly formatted or wrong file!");
+		return;
+	}
+
+	songObj.songs.push(newJSON);
+
+	var filler = '';
+	var orFiller = getId('song-name').innerHTML;
+	filler += '<option value="' + newJSON.name + '">' +
+			newJSON.name + '</option>';
+
+	getId('song-name').innerHTML = filler + orFiller;
+}
+
+// fill the song chooser menu with data from JSON
+function fill_songs() {
+	//songObj = JSON.parse(songsJSON);
+	songObj = songsJSON;
+	var len = songObj.songs.length;
+	var filler = '';
+
+	for (var i = 0; i < len; i++) {
+		filler += '<option value="' + songObj.songs[i].name + '">' +
+			songObj.songs[i].name + '</option>';
+	}
+
+	getId('song-name').innerHTML = filler;
+}
 
 // set image dimensions based on the song
 function set_sizes() {
@@ -128,9 +188,26 @@ function hide(col, lastTact = false) {
 	}
 }
 
+/*
+	search in JSON object
+	https://stackoverflow.com/a/4992429/6049386
+*/
+function getObjects(obj, key, val) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(getObjects(obj[i], key, val));
+        } else if (i == key && obj[key] == val) {
+            objects.push(obj);
+        }
+    }
+    return objects;
+}
+
 // redraw the table with the notes
 function change_song (song) {
-	currSong = window[song];
+	currSong = getObjects(songObj, 'name', song)[0].song;
 	set_sizes();
 	var filler = '';
 
