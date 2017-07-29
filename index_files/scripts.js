@@ -70,11 +70,13 @@ function file_loaded(evt) {
 	songObj.songs.push(newJSON);
 
 	var filler = '';
-	var orFiller = getId('song-name').innerHTML;
+	var songName = getId('song-name');
+	var orFiller = songName.innerHTML;
 	filler += '<option value="' + newJSON.name + '">' +
 			newJSON.name + '</option>';
 
-	getId('song-name').innerHTML = filler + orFiller;
+	songName.innerHTML = filler + orFiller;
+	change_song(songName.value);
 }
 
 // fill the song chooser menu with data from JSON
