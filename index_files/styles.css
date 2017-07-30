@@ -75,6 +75,10 @@ html, body{
   background-color: rgba(250, 250, 250, 0.4);
   display: none;
 }
+table {
+  margin: auto;
+  text-align: center;
+}
 td img {
   height: auto;
 }
