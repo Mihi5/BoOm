@@ -105,6 +105,7 @@ function fill_songs() {
 
 	getId('song-name').innerHTML = filler;
 	currSong = songObj.songs[0];
+	change_song(currSong.name);
 }
 
 // set image dimensions based on the song
@@ -119,16 +120,17 @@ function set_sizes() {
 
 	var wH = window.innerHeight;
 	var par = 350; // TODO: bind to window width
-	tdSizeNorm = 0.8 * (wH - par) / (2 * currSongVoices);
-	tdSizeBigger = (wH - par) / (2 * currSongVoices);
-	imgSizeNorm = 0.75 * (wH - par) / (2 * currSongVoices);
-	imgSizeBigger = 0.95 * (wH - par) / (2 * currSongVoices);
+	tdSizeNorm = Math.round(0.8 * (wH - par) / (2 * currSongVoices));
+	tdSizeBigger = Math.round((wH - par) / (2 * currSongVoices));
+	imgSizeNorm = Math.round(0.75 * (wH - par) / (2 * currSongVoices));
+	imgSizeBigger = Math.round(0.95 * (wH - par) / (2 * currSongVoices));
 
 	// calculate offsets
 	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
 	imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
 	imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
 	imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
+	//imgOffsetTopNorm = imgOffsetTopBigger = 0;
 }
 
 function getId (id){
@@ -246,8 +248,8 @@ function change_song (song) {
 			filler += '<tr>';
 			for (var k = 0; k < currSongTimes; k++)	{
 				filler +=
-					'<td onclick="show(\'sel' + t + '_' + i + '_' + k + '\')" style=' +
-						'"width:' + tdSizeBigger + 'px; ' +
+					'<td onclick="show(\'sel' + t + '_' + i + '_' + k + '\')" style="' +
+						'width:' + tdSizeBigger + 'px; ' +
 						'height:' + tdSizeNorm + 'px" ' +
 						'id="t' + t + '_r' + i + '_' + k + '">';
 
@@ -293,6 +295,7 @@ function change_song (song) {
 	window.scrollTo(0, 0);
 }
 
+// option is selected - set the new image and disappear
 function selectorChange(t, i, k, obj) {
 	$(obj).click(function(event){
 		event.stopPropagation();
@@ -317,10 +320,14 @@ function show(id) {
 	getId(id).style.display = 'block';
 }
 
+function hide(id) {
+	getId(id).style.display = 'none';
+}
+
 // advance to the next tact
 function next_slide() {
 	//window.scrollBy(0, currSongVoices*tdSizeNorm + 100);
-	getId('t' + currTact).classList.add("faded");
+	mFade();
 	currTact++;
 	// end of the song reached
 	if (currTact == currSongLength) {
@@ -334,10 +341,29 @@ function next_slide() {
 			//getId('play-pause').innerHTML = "Play";
 		}
 	}
+	 mUnfadeAndScrollTo();
+}
+
+// shrink helper for for- and backward
+function mShrink() {
+	if ((currTime - 1) < 0) {
+		shrink(currSongTimes - 1, true);
+	} else {
+		shrink(currTime - 1);
+	}
+}
+
+// helper for fading a tact
+function mFade() {
+	getId('t' + currTact).classList.add("faded");
+}
+
+// helper for unfading a tact and scrolling to it
+function mUnfadeAndScrollTo() {
+	getId('t' + currTact).classList.remove("faded");
 	$('html, body').animate({
 		scrollTop: parseInt($('#t' + currTact).offset().top - 70)
 	}, speed);
-	 getId('t' + currTact).classList.remove("faded");
 }
 
 // recursive play
@@ -347,11 +373,7 @@ function play() {
 	}
 	grow(currTime);
 	var mHide;
-	if ((currTime - 1) < 0) {
-		shrink(currSongTimes - 1, true);
-	} else {
-		shrink(currTime - 1);
-	}
+	mShrink();
 	currTime++;
 	if (currTime == currSongTimes) {
 		currTime = 0;
@@ -371,6 +393,32 @@ function play_slides() {
 	play();
 }
 
+// one tact back
+function rewind() {
+	if (currTact == 0) {
+		return;
+	}
+	mShrink();
+	currTime = 0;
+	mFade();
+	currTact--;
+	mUnfadeAndScrollTo();
+}
+
+// one tact forward
+function forward() {
+	mShrink();
+	currTime = 0;
+	mFade();
+	currTact++;
+	// end of the song reached
+	if (currTact == currSongLength) {
+		currTact = 0;
+	}
+	mUnfadeAndScrollTo();
+}
+
+// this get called from the tempo slider
 function vary_speed(value) {
 	speed = 700 - (value)*6.5;
 	getId('tempo').innerHTML = value;
@@ -391,15 +439,15 @@ function go_create() {
 		alert("Name too long!");
 		return;
 	}
-	if (crTimes < 1) {
-		alert("Invalid time!");
+	if (isNaN(crTimes) || crTimes < 1) {
+		alert("Invalid times!");
 		return;
 	}
-	if (crTacts < 1) {
-		alert("Invalid time!");
+	if (isNaN(crTacts) || crTacts < 1) {
+		alert("Invalid tacts!");
 		return;
 	}
-	if (crVoices < 1 || crVoices > 4) {
+	if (isNaN(crVoices) || crVoices < 1 || crVoices > 4) {
 		alert("Invalid voices!");
 		return;
 	}

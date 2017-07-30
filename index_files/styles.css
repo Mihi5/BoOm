@@ -11,14 +11,6 @@ html, body{
 #Logo{
   width: 100%;
 }
-#headTable {
-  width: 100%;
-  text-align: center;
-}
-#headTable td {
-  vertical-align: middle;
-  text-align: center;
-}
 #tempo-slider {
   width: 100px;
   margin: auto;
@@ -30,21 +22,25 @@ html, body{
   position: fixed;
   left: 0;
   right: 0;
-  text-align: center;
   background-color: rgba(255, 255, 255, 0.9);
-  z-index: 1;
+  z-index: 3;
   transition: margin-left .5s;
 }
 #main {
     transition: margin-left .5s;
 }
 #song-name {
+  margin-top: 10px;
   font-family: Lobster, Monospace;
   font-size: 28px;
   height: 50px;
   text-align: center;
 }
 #mArrows {
+  position: fixed;
+  margin-top: 75px;
+  text-align: center;
+  width: 99%;
   height: 60px;
   background-color: rgba(230, 230, 230, 0.5);
   z-index: 2;
@@ -58,8 +54,13 @@ html, body{
   margin-top: 70px;
   text-align: center;
 }
-#mTable td {
-  border: thin gray dashed;
+.nopad {
+  padding: 0;
+  margin: 0;
+  float:left;
+}
+#adv-menu {
+  display: none;
 }
 #mTable img {
   position: absolute;
@@ -82,6 +83,9 @@ table {
 td img {
   height: auto;
 }
+td {
+  vertical-align: middle;
+}
 .faded {
   opacity: 0.5;
   filter: alpha(opacity=60); /* msie */
@@ -97,11 +101,11 @@ td img {
   display: none;
   position: fixed;
   width: 30%;
-  height: 320px;
+  height: 250px;
   margin-top: 80px;
   margin-left: 35%;
-  padding: 40px;
-  border: thick gray dashed;
+  padding: 20px;
+  border: thin gray solid;
   z-index: 33;
   background-color: white;
 }
