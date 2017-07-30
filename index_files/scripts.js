@@ -1,5 +1,15 @@
+var allNotes =
+[
+	"",
+	"C0","Cis0","D0","Dis0","E0","F0","Fis0","G0","Gis0","A0","Ais0","B0",
+	"C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","B",
+	"C1"
+];
+var allNotesLen = allNotes.length;
+
 var songObj;
-var currSong ='';
+var mNewSong;
+var currSong;
 var speed = 150;
 var eLoop = {
 	none: 0,
@@ -38,7 +48,9 @@ $(document).ready(function(){
 function download() {
 	var currName = getId('song-name').value;
 	var dataStr = "data:text/json;charset=utf-8," +
-		encodeURIComponent(JSON.stringify(getObjects(songObj, 'name', currName)[0]));
+		encodeURIComponent(
+			JSON.stringify(getObjects(songObj, 'name', currName)[0])
+		);
 
 	var dlAnchorElem = getId('download');
 	dlAnchorElem.setAttribute('href',     dataStr     );
@@ -92,23 +104,25 @@ function fill_songs() {
 	}
 
 	getId('song-name').innerHTML = filler;
+	currSong = songObj.songs[0];
 }
 
 // set image dimensions based on the song
 function set_sizes() {
-	currSongLength = currSong.length;
-	currSongVoices = currSong[0].length;
-	currSongTimes = currSong[0][0].length;
+	currSongLength = (currSong.song).length;
+	currSongVoices = (currSong.song[0]).length;
+	currSongTimes = (currSong.song[0][0]).length;
 
 	currTact = 0;
 	currTime = 0;
 	looping = eLoop.none;
 
 	var wH = window.innerHeight;
-	tdSizeNorm = 0.8 * (wH - 250) / (2 * currSongVoices);
-	tdSizeBigger = (wH - 250) / (2 * currSongVoices);
-	imgSizeNorm = 0.75 * (wH - 250) / (2 * currSongVoices);
-	imgSizeBigger = 0.95 * (wH - 250) / (2 * currSongVoices);
+	var par = 350; // TODO: bind to window width
+	tdSizeNorm = 0.8 * (wH - par) / (2 * currSongVoices);
+	tdSizeBigger = (wH - par) / (2 * currSongVoices);
+	imgSizeNorm = 0.75 * (wH - par) / (2 * currSongVoices);
+	imgSizeBigger = 0.95 * (wH - par) / (2 * currSongVoices);
 
 	// calculate offsets
 	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
@@ -155,13 +169,13 @@ function play_sound(s0, s1, s2, s3) {
 }
 
 // shows an arrow and grows the respective row
-function show(col) {
+function grow(col) {
 	getId('arr' + col).style.visibility = 'visible';
 
 	var toBePlayed = ['', '', '', ''];
 
 	for (var i=0; i < currSongVoices; i++)	{
-		if (currSong[currTact][i][col] != '') {
+		if (currSong.song[currTact][i][col] != '') {
 			var mId = 'img_t' + currTact + '_r' + i + '_' + col;
 			getId(mId).style.width = imgSizeBigger + 'px';
 			getId(mId).style.marginTop = imgOffsetTopBigger;
@@ -169,19 +183,18 @@ function show(col) {
 			toBePlayed[i] = getId(mId).alt;
 		}
 	}
-	//console.log('will play: ' + toBePlayed);
 	play_sound(toBePlayed[0],toBePlayed[1],toBePlayed[2],toBePlayed[3]);
 }
 
 // hides an arrow and normalize the respective row
-function hide(col, lastTact = false) {
+function shrink(col, lastTact = false) {
 	var mTact = (lastTact == false)? currTact: (currTact -1);
 	if (mTact < 0)
 		mTact = 0;
 
 	getId('arr' + col).style.visibility = 'hidden';
 	for (var i=0; i < currSongVoices; i++)	{
-		if (currSong[mTact][i][col] != '') {
+		if (currSong.song[mTact][i][col] != '') {
 			var mId = 'img_t' + mTact + '_r' + i + '_' + col;
 			getId(mId).style.width = imgSizeNorm + 'px';
 			getId(mId).style.marginTop = imgOffsetTopNorm;
@@ -207,9 +220,9 @@ function getObjects(obj, key, val) {
     return objects;
 }
 
-// redraw the table with the notes
+// redraw the table with the current song
 function change_song (song) {
-	currSong = getObjects(songObj, 'name', song)[0].song;
+	currSong = getObjects(songObj, 'name', song)[0];
 	set_sizes();
 	var filler = '';
 
@@ -218,10 +231,7 @@ function change_song (song) {
 	for (var k = 0; k < currSongTimes; k++)
 		filler +=
 			'<td style=' +
-				'"width:' + tdSizeBigger + 'px" ' +
-				/*'onmouseover="show(' + k + ')" ' +
-				'onmouseout="hide(' + k + ')"' +*/
-				'>' +
+				'"width:' + tdSizeBigger + 'px" >' +
 					'<img class="not-shown" id="arr' + k + '" ' +
 					'src="index_files/pics/arrow.png" />' +
 			'</td>';
@@ -236,20 +246,38 @@ function change_song (song) {
 			filler += '<tr>';
 			for (var k = 0; k < currSongTimes; k++)	{
 				filler +=
-					'<td style=' +
+					'<td onclick="show(\'sel' + t + '_' + i + '_' + k + '\')" style=' +
 						'"width:' + tdSizeBigger + 'px; ' +
 						'height:' + tdSizeNorm + 'px" ' +
 						'id="t' + t + '_r' + i + '_' + k + '">';
-				if (currSong[t][i][k] != '') {
-					filler +=
-						'<img style=' +
-							'"margin-top:' + imgOffsetTopNorm + '; ' +
-							'margin-left:' + imgOffsetLeftNorm + '; ' +
-							'width:' + imgSizeNorm + 'px" ' +
-							'id="img_t' + t + '_r' + i + '_' + k + '" ' +
-							'src="index_files/pics/' + currSong[t][i][k] + '.png" ' +
-							'alt="' + currSong[t][i][k] + '" />';
+
+				var imgSrc = 'dummy';
+				var imgAlt = '';
+				if (currSong.song[t][i][k] != '') {
+					imgSrc = currSong.song[t][i][k];
+					imgAlt = imgSrc;
 				}
+				filler +=
+					'<img style=' +
+						'"margin-top:' + imgOffsetTopNorm + '; ' +
+						'margin-left:' + imgOffsetLeftNorm + '; ' +
+						'width:' + imgSizeNorm + 'px" ' +
+						'id="img_t' + t + '_r' + i + '_' + k + '" ' +
+						'src="index_files/pics/' + imgSrc + '.png" ' +
+						'alt="' + imgAlt + '" />';
+
+				filler +=
+					'<select id="sel' + t + '_' + i + '_' + k + '" ' +
+						'onchange="' +
+							'selectorChange(' + t + ',' + i + ',' + k + ',this)">';
+					for (var p = 0; p < allNotesLen; p++) {
+						filler += '<option value="' + allNotes[p] + '">' +
+												allNotes[p] +
+											'</option>';
+					}
+				filler +=
+					'</select>';
+
 				filler += '</td>'
 			}
 			filler += '</tr>';
@@ -265,6 +293,30 @@ function change_song (song) {
 	window.scrollTo(0, 0);
 }
 
+function selectorChange(t, i, k, obj) {
+	$(obj).click(function(event){
+		event.stopPropagation();
+	});
+	var value = obj.value;
+	getId('sel' + t + '_' + i + '_' + k).style.display = 'none';
+	var mId = 'img_t' + t + '_r' + i + '_' + k;
+	var mImg = new Image();
+	var imgSrc = (value == '')? 'dummy':value;
+	mImg.src = 'index_files/pics/' + imgSrc + '.png';
+	getId(mId).src = mImg.src;
+	getId(mId).alt = value;
+	currSong.song[t][i][k] = value;
+}
+
+function show_create() {
+	getId('crTable').style.display = "block";
+	getId('mTable').innerHTML = '';
+}
+
+function show(id) {
+	getId(id).style.display = 'block';
+}
+
 // advance to the next tact
 function next_slide() {
 	//window.scrollBy(0, currSongVoices*tdSizeNorm + 100);
@@ -273,11 +325,12 @@ function next_slide() {
 	// end of the song reached
 	if (currTact == currSongLength) {
 		currTact = currSongLength - 1;
-		hide(currSongTimes - 1);
+		shrink(currSongTimes - 1);
 		currTact = 0;
 		if (looping != eLoop.song) {
 			running = false;
-			$('#play-pause').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
+			$('#play-pause').toggleClass('glyphicon-play')
+				.toggleClass('glyphicon-pause');
 			//getId('play-pause').innerHTML = "Play";
 		}
 	}
@@ -292,12 +345,12 @@ function play() {
 	if (!running) {
 		return;
 	}
-	show(currTime);
+	grow(currTime);
 	var mHide;
 	if ((currTime - 1) < 0) {
-		hide(currSongTimes - 1, true);
+		shrink(currSongTimes - 1, true);
 	} else {
-		hide(currTime - 1);
+		shrink(currTime - 1);
 	}
 	currTime++;
 	if (currTime == currSongTimes) {
@@ -312,10 +365,8 @@ function play() {
 // start/stop the playback
 function play_slides() {
 	running = !running;
-	if (currSong === '') {
-		change_song(getId('song-name').value);
-	}
-	$('#play-pause').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
+	$('#play-pause').toggleClass('glyphicon-play')
+		.toggleClass('glyphicon-pause');
 	//getId('play-pause').innerHTML = (running) ? "Pause": "Play";
 	play();
 }
@@ -329,7 +380,72 @@ function set_looping (value) {
 	looping = eLoop[value];
 }
 
-// Sidenav scripts
+// create mode - sets parameters for a new song and create a base json for it
+function go_create() {
+	var crName = getId('crName').value;
+	var crTimes = parseInt(getId('crTimes').value);
+	var crTacts = parseInt(getId('crTacts').value);
+	var crVoices = parseInt(getId('crVoices').value);
+
+	if (crName.length > 20) {
+		alert("Name too long!");
+		return;
+	}
+	if (crTimes < 1) {
+		alert("Invalid time!");
+		return;
+	}
+	if (crTacts < 1) {
+		alert("Invalid time!");
+		return;
+	}
+	if (crVoices < 1 || crVoices > 4) {
+		alert("Invalid voices!");
+		return;
+	}
+
+	var i,l,k;
+	var mNewSongStr = '{"name":"' + crName + '", "song": [';
+
+	for (i = 0; i < crTacts; i++) {
+		// create tact
+		mNewSongStr += '[';
+		for (k = 0; k < (crVoices); k++) {
+			// create voices
+			mNewSongStr += '[';
+			for (l = 0; l < (crTimes); l++) {
+				// create times
+				mNewSongStr += '""';
+				if (l != (crTimes-1)) {
+					mNewSongStr += ',';
+				}
+			}
+			mNewSongStr += ']';
+			if (k != (crVoices-1)) {
+				mNewSongStr += ',';
+			}
+		}
+		mNewSongStr += ']';
+		if (i != (crTacts-1)) {
+			mNewSongStr += ',';
+		}
+	}
+
+	mNewSongStr += ']}';
+	mNewSong = JSON.parse(mNewSongStr);
+
+	var oldFill = getId('song-name').innerHTML;
+	getId('song-name').innerHTML = '<option value="' + mNewSong.name + '">' +
+		mNewSong.name + '</option>' + oldFill;
+
+	songObj.songs.push(mNewSong);
+
+	change_song(mNewSong.name);
+
+	currSong = songObj.songs[songObj.songs.length - 1];
+}
+
+// Sidenav (menu) scripts
 var sideNavOn = 0;
 function openNav() {
   if(sideNavOn === 0){

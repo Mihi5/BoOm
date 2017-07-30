@@ -28,11 +28,6 @@
       <tr>
         <td style="width: 30%; text-align: left">
           <img style="width: 80%" src="index_files/pics/logo.png" alt="Logo">
-          <a id="download" href="javascript: download()">
-            <button type="button" style="width: 100px" class="pd btn btn-lg btn-default">
-              <span class="glyphicon glyphicon-download"></span>
-            </button>
-          </a>
         </td>
         <td style="width: auto">
           <div class="form-group" style="padding-top:15px">
@@ -40,13 +35,13 @@
             </select>
           </div>
         </td>
-        <td style="width: 10%; text-align: left">
-          <button type="button" onclick="play_slides()" style="width: 100px" class="pd btn btn-lg btn-default">
+        <td style="width: 6%; text-align: left">
+          <button type="button" onclick="play_slides()" class="pd btn btn-lg btn-default">
             <span id="play-pause" class="glyphicon glyphicon-play"></span>
           </button>
         </td>
           <td style="width: 5%;">
-          <div class="form-group" style="padding-top:25px;">
+          <div class="form-group" style="padding-top:20px;">
             <select id="looping" class="form-control" onchange="set_looping(this.value)" style="width: 120px">
               <option value="none">loop: none</option>
               <option value="tact">loop: tact</option>
@@ -54,15 +49,23 @@
             </select>
           </div>
         </td>
-        <td style="width: 10%">
+        <td style="width: 7%">
           tempo: <span id="tempo">85</span><input id="tempo-slider" name="slider" type="range" min="1" max="100" step="1" value="85" oninput="vary_speed(value)" />
         </td>
-        <td style="width: 10%">
-          <label class="btn btn-default btn-file">
-              Use your song<input id="mFile" type="file" style="display: none" onchange="file_read()" />
+        <td style="width:5%; text-align: right">
+          <label class="btn btn-lg btn-default btn-file">
+              <span class="glyphicon glyphicon-upload"></span>
+              <input id="mFile" type="file" style="display: none" onchange="file_read()" />
           </label>
         </td>
-        <td style="width: 5%">
+        <td style="width: 5%; text-align: left">
+          <a id="download" href="javascript: download()">
+            <button type="button" class="btn btn-lg btn-default">
+              <span class="glyphicon glyphicon-download"></span>
+            </button>
+          </a>
+        </td>
+        <td style="width: 3%">
           <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
         </td>
       </tr>
@@ -76,5 +79,42 @@
   <div id="mTable"></div>
 
 </div>
+
+<div id="crTable" >
+  <table style="text-align: center; width: 100%">
+    <tr>
+      <th>Name:  </th>
+    </tr>
+    <td colspan="3" style="width:100%">
+      <input id="crName" type="text" value="my song" />
+    </td>
+    <tr style="height:30px;"></tr>
+    <tr>
+      <th>times: </th>
+      <th>tacts: </th>
+      <th>voices:</th>
+    </tr>
+    <tr>
+      <td>
+        <input id="crTimes" type="number" value="8" />
+      </td>
+      <td>
+        <input id="crTacts" type="number" value="4" />
+      </td>
+      <td>
+        <input id="crVoices" type="number" value="1" />
+      </td>
+    </tr>
+    <tr style="height:60px;"></tr>
+    <tr>
+      <td style="border:0"></td>
+      <td style="border:0"></td>
+      <td>
+        <input onclick="go_create()" type="submit" value="Go!"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
 </body>
 </html>
