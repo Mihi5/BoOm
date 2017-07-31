@@ -1,0 +1,163 @@
+<html>
+<head>
+  <title>BoOm</title>
+  <link rel="icon" href="pics/favicon.ico">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="songs.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+</head>
+<body>
+<div id="main" class="container-fluid">
+
+  <div id="mHeader">
+
+    <div class="row" style="height:70px">
+
+        <!-- logo -->
+        <div class="col-xs-4">
+          <img width="90%" src="pics/logo.png" alt="Logo">
+        </div>
+
+        <!-- song selector -->
+        <div class="col-xs-4" class="form-group">
+          <select style="90%" id="song-name" class="form-control" onchange="change_song(this.value)">
+          </select>
+        </div>
+
+        <!-- Player Menu -->
+        <div class="col-xs-3">
+          <div style="width: 225px; background-color: rgba(255, 255, 255, 0.8); padding: 5px; border: 1px rgba(150,150,150,0.5) solid; position: absolute; left: 10px; top: 10px"  onmouseout="hide('adv-menu')" onmouseover="show('adv-menu')">
+
+            <div style="height:40px">
+              <div class="nopad">
+                <button type="button" onclick="rewind()" class="pd btn btn-lg btn-default" style="width:70px">
+                  <span id="rewind" class="glyphicon glyphicon-backward"></span>
+                </button>
+              </div>
+              <div class="nopad">
+                <button type="button" onclick="play_slides()" class="pd btn btn-lg btn-default" style="width:70px">
+                  <span id="play-pause" class="glyphicon glyphicon-play"></span>
+                </button>
+              </div>
+              <div class="nopad">
+                <button type="button" onclick="forward()" class="pd btn btn-lg btn-default" style="width:70px">
+                  <span id="forward" class="glyphicon glyphicon-forward"></span>
+                </button>
+              </div>
+            </div>
+
+            <div id="adv-menu">
+
+              <div style="margin-top: 10px;">
+                <div class="nopad">
+                  <table style="vertical-align:middle">
+                    <tr><td>
+                      <span class="glyphicon glyphicon-repeat"></span>
+                    </td><td>
+                      <select style="margin-left: 5px" id="looping" class="form-control" onchange="set_looping(this.value)" style="width:100px">
+                        <option value="none">no</option>
+                        <option value="tact">tact</option>
+                        <option value="song">song</option>
+                      </select>
+                    </td></tr>
+                  </table>
+                </div>
+                <div class="nopad" style="margin-left:10px">
+                  tempo: <span id="tempo">85</span><input id="tempo-slider" name="slider" type="range" min="1" max="100" step="1" value="85" oninput="vary_speed(value)" style="width:100px"/>
+                </div>
+              </div>
+
+              <div style="height: 80px">
+                <div style="width: 180px;margin:auto">
+                  <div class="nopad">
+                    <button class="btn btn-lg btn-default btn-file" style="width:60px">
+                        <span class="glyphicon glyphicon-open"></span>
+                        <input id="mFile" type="file" style="display: none" onchange="file_read()" />
+                    </button>
+                  </div>
+                  <div class="nopad">
+                    <a id="download" href="javascript: download()">
+                      <button type="button" class="btn btn-lg btn-default" style="width:60px">
+                        <span class="glyphicon glyphicon-save"></span>
+                      </button>
+                    </a>
+                  </div>
+                  <div class="nopad">
+                    <a href="javascript: show_create()">
+                      <button type="button" class="btn btn-lg btn-default" style="width:60px">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- EOF player menu -->
+
+        <div class="col-xs-1" style="text-align:right">
+          <div style="margin:10px">
+            <a href="../index.html" title="home">
+              <button type="button" class="btn btn-lg btn-default" style="width:60px">
+                <span class="glyphicon glyphicon-home"></span>
+              </button>
+            </a>
+          </div>
+        </div>
+
+    </div> <!-- row -->
+
+  </div>
+
+  <div id="mArrows"></div>
+
+
+  <div id="mTable"></div>
+
+  <div id="crTable" >
+    <table style="text-align: center; width: 100%">
+      <tr>
+        <th>Name:  </th>
+      </tr>
+      <td colspan="3" style="width:100%">
+        <input id="crName" type="text" value="my song" />
+      </td>
+      <tr style="height:30px;"></tr>
+      <tr>
+        <th>times: </th>
+        <th>tacts: </th>
+        <th>voices:</th>
+      </tr>
+      <tr>
+        <td>
+          <input id="crTimes" type="number" value="8" />
+        </td>
+        <td>
+          <input id="crTacts" type="number" value="4" />
+        </td>
+        <td>
+          <input id="crVoices" type="number" value="1" />
+        </td>
+      </tr>
+      <tr style="height:40px;"></tr>
+      <tr>
+        <td style="border:0"></td>
+        <td style="border:0"></td>
+        <td style="border:0">
+          <button type="button" onclick="go_create()" class="pd btn btn-md btn-default" style="width:100%">Go!</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>

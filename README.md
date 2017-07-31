@@ -2,4 +2,4 @@
 
 Play boomwhackers!
 
-soon to have its own website
+now available at https://boom-music.ddns.net

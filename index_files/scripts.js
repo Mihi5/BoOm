@@ -142,28 +142,28 @@ function play_sound(s0, s1, s2, s3) {
 	var snd0;	var snd1; var snd2; var snd3;
 
 	if (s0 != '') {
-		snd0 = new Audio('index_files/sound/PizzStr/' + s0 + '.ogg');
+		snd0 = new Audio('sound/PizzStr/' + s0 + '.ogg');
 		//console.log('s0: ' + s0 + '.ogg');
 		snd0.mediaGroup = 'soundGroup';
 		snd0.play();
 	}
 
 	if (s1 != '') {
-		snd1 = new Audio('index_files/sound/PizzStr/' + s1 + '.ogg');
+		snd1 = new Audio('sound/PizzStr/' + s1 + '.ogg');
 		//console.log('s1: ' + s1 + '.ogg');
 		snd1.mediaGroup = 'soundGroup';
 		snd1.play();
 	}
 
 	if (s2 != '') {
-		snd2 = new Audio('index_files/sound/PizzStr/' + s2 + '.ogg');
+		snd2 = new Audio('sound/PizzStr/' + s2 + '.ogg');
 		//console.log('s2: ' + s2 + '.ogg');
 		snd2.mediaGroup = 'soundGroup';
 		snd2.play();
 	}
 
 	if (s3 != '') {
-		snd3 = new Audio('index_files/sound/PizzStr/' + s3 + '.ogg');
+		snd3 = new Audio('sound/PizzStr/' + s3 + '.ogg');
 		//console.log('s3: ' + s3 + '.ogg');
 		snd3.mediaGroup = 'soundGroup';
 		snd3.play();
@@ -235,7 +235,7 @@ function change_song (song) {
 			'<td style=' +
 				'"width:' + tdSizeBigger + 'px" >' +
 					'<img class="not-shown" id="arr' + k + '" ' +
-					'src="index_files/pics/arrow.png" />' +
+					'src="pics/arrow.png" />' +
 			'</td>';
 	filler += '</tr></table>';
 	getId('mArrows').innerHTML = filler;
@@ -265,7 +265,7 @@ function change_song (song) {
 						'margin-left:' + imgOffsetLeftNorm + '; ' +
 						'width:' + imgSizeNorm + 'px" ' +
 						'id="img_t' + t + '_r' + i + '_' + k + '" ' +
-						'src="index_files/pics/' + imgSrc + '.png" ' +
+						'src="pics/' + imgSrc + '.png" ' +
 						'alt="' + imgAlt + '" />';
 
 				filler +=
@@ -305,7 +305,7 @@ function selectorChange(t, i, k, obj) {
 	var mId = 'img_t' + t + '_r' + i + '_' + k;
 	var mImg = new Image();
 	var imgSrc = (value == '')? 'dummy':value;
-	mImg.src = 'index_files/pics/' + imgSrc + '.png';
+	mImg.src = 'pics/' + imgSrc + '.png';
 	getId(mId).src = mImg.src;
 	getId(mId).alt = value;
 	currSong.song[t][i][k] = value;
