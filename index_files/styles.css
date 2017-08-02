@@ -22,7 +22,7 @@ html, body{
   position: fixed;
   left: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: white;
   z-index: 3;
   transition: margin-left .5s;
 }
@@ -100,20 +100,14 @@ td {
   margin-top: 10px;
 }
  #index-main {
-  width: 800px;
-  min-width: 450px;
-  height: 95%;
-  min-height: 400px;
+  background-color: white;
+  width: 60%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: thin gray solid;
   padding: 20px;
-  overflow: scroll;
-  overflow-x: hidden;
   font-size: 18px
  }
-
 
 #crTable {
   display: none;
