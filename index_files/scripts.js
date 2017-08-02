@@ -1,11 +1,11 @@
-var allNotes =
+var allSounds =
 [
 	"",
 	"C0","Cis0","D0","Dis0","E0","F0","Fis0","G0","Gis0","A0","Ais0","B0",
 	"C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","B",
 	"C1"
 ];
-var allNotesLen = allNotes.length;
+var allSoundsLen = allSounds.length;
 
 var songObj;
 var mNewSong;
@@ -42,6 +42,7 @@ $(document).ready(function(){
 	getId('tempo-slider').value = 85;
 	getId('looping').value = "none";
 	fill_songs();
+	preload_sounds();
 });
 
 // export song as downloadable JSON
@@ -272,9 +273,9 @@ function change_song (song) {
 					'<select id="sel' + t + '_' + i + '_' + k + '" ' +
 						'onchange="' +
 							'selectorChange(' + t + ',' + i + ',' + k + ',this)">';
-					for (var p = 0; p < allNotesLen; p++) {
-						filler += '<option value="' + allNotes[p] + '">' +
-												allNotes[p] +
+					for (var p = 0; p < allSoundsLen; p++) {
+						filler += '<option value="' + allSounds[p] + '">' +
+												allSounds[p] +
 											'</option>';
 					}
 				filler +=
@@ -493,26 +494,31 @@ function go_create() {
 	currSong = songObj.songs[songObj.songs.length - 1];
 }
 
-// Sidenav (menu) scripts
-var sideNavOn = 0;
-function openNav() {
-  if(sideNavOn === 0){
-    getId("mySidenav").style.width = "250px";
-    getId("main").style.marginLeft = "250px";
-    getId("mHeader").style.marginLeft = "250px";
-    sideNavOn = 1;
-  }
-  else{
-    getId("mySidenav").style.width = "0";
-    getId("main").style.marginLeft= "0";
-    getId("mHeader").style.marginLeft = "0";
-    sideNavOn = 0;
-  }
+// preload all ogg in the browser
+// https://stackoverflow.com/a/31351186/6049386
+function preload_sounds() {
+	for (var i = 1; i < allSoundsLen; i++) {
+    var audio = new Audio();
+    // once this file loads, it will call loadedAudio()
+    // the file will be kept by the browser as cache
+    audio.addEventListener('canplaythrough', loadedAudio, false);
+    audio.src = 'sound/PizzStr/' + allSounds[i] + '.ogg';
+	}
 }
 
-function closeNav() {
-    getId("mySidenav").style.width = "0";
-    getId("main").style.marginLeft= "0";
-    getId("mHeader").style.marginLeft = "0";
-    sideNavOn = 0
+var snd_loaded = 1;
+function loadedAudio() {
+    // this will be called every time an audio file is loaded
+    // we keep track of the loaded files vs the requested files
+    snd_loaded++;
+    if (snd_loaded == allSoundsLen){
+    	// all have loaded
+    	init_menu();
+    }
+}
+
+// shows the menu
+function init_menu() {
+	getId('loading').style.display = "none";
+	getId('menu').style.display = "block";
 }
