@@ -14,7 +14,7 @@ var speed = 150;
 var eLoop = {
 	none: 0,
 	tact: 1,
-	song: 2.
+	song: 2
 };
 var currSongLength;
 var currSongVoices;
@@ -96,7 +96,6 @@ function file_loaded(evt) {
 function fill_songs() {
 	//songObj = JSON.parse(songsJSON);
 	songObj = songsJSON;
-	var len = songObj.songs.length;
 	var filler = '';
 
 	for (var i = 0; i < len; i++) {
@@ -120,7 +119,7 @@ function set_sizes() {
 	looping = eLoop.none;
 
 	var wH = window.innerHeight;
-	var par = 350; // TODO: bind to window width
+	var par = 350; // ToDo: bind to window width
 	tdSizeNorm = Math.round(0.8 * (wH - par) / (2 * currSongVoices));
 	tdSizeBigger = Math.round((wH - par) / (2 * currSongVoices));
 	imgSizeNorm = Math.round(0.75 * (wH - par) / (2 * currSongVoices));
