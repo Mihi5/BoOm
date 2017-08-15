@@ -132,6 +132,7 @@ function set_sizes() {
 	imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
 	imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
 	//imgOffsetTopNorm = imgOffsetTopBigger = 0;
+	imgOffsetLeftNorm = imgOffsetLeftBigger = '0px';
 }
 
 function getId (id){
