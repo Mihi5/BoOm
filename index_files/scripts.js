@@ -190,7 +190,9 @@ function grow(col) {
 }
 
 // hides an arrow and normalize the respective row
-function shrink(col, lastTact = false) {
+function shrink(col, lastTact) {
+	if (typeof lastTact === 'undefined')
+		lastTact = false;
 	var mTact = (lastTact == false)? currTact: (currTact -1);
 	if (mTact < 0)
 		mTact = 0;
