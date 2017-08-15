@@ -96,6 +96,7 @@ function file_loaded(evt) {
 function fill_songs() {
 	//songObj = JSON.parse(songsJSON);
 	songObj = songsJSON;
+	var len = songObj.songs.length;
 	var filler = '';
 
 	for (var i = 0; i < len; i++) {
@@ -142,29 +143,29 @@ function play_sound(s0, s1, s2, s3) {
 	var snd0;	var snd1; var snd2; var snd3;
 
 	if (s0 != '') {
-		snd0 = new Audio('sound/PizzStr/' + s0 + '.ogg');
-		//console.log('s0: ' + s0 + '.ogg');
+		snd0 = new Audio('sound/PizzStr/' + s0 + '.mp3');
+		//console.log('s0: ' + s0 + '.mp3');
 		snd0.mediaGroup = 'soundGroup';
 		snd0.play();
 	}
 
 	if (s1 != '') {
-		snd1 = new Audio('sound/PizzStr/' + s1 + '.ogg');
-		//console.log('s1: ' + s1 + '.ogg');
+		snd1 = new Audio('sound/PizzStr/' + s1 + '.mp3');
+		//console.log('s1: ' + s1 + '.mp3');
 		snd1.mediaGroup = 'soundGroup';
 		snd1.play();
 	}
 
 	if (s2 != '') {
-		snd2 = new Audio('sound/PizzStr/' + s2 + '.ogg');
-		//console.log('s2: ' + s2 + '.ogg');
+		snd2 = new Audio('sound/PizzStr/' + s2 + '.mp3');
+		//console.log('s2: ' + s2 + '.mp3');
 		snd2.mediaGroup = 'soundGroup';
 		snd2.play();
 	}
 
 	if (s3 != '') {
-		snd3 = new Audio('sound/PizzStr/' + s3 + '.ogg');
-		//console.log('s3: ' + s3 + '.ogg');
+		snd3 = new Audio('sound/PizzStr/' + s3 + '.mp3');
+		//console.log('s3: ' + s3 + '.mp3');
 		snd3.mediaGroup = 'soundGroup';
 		snd3.play();
 	}
@@ -503,7 +504,7 @@ function preload_sounds() {
     // once this file loads, it will call loadedAudio()
     // the file will be kept by the browser as cache
     audio.addEventListener('canplaythrough', loadedAudio, false);
-    audio.src = 'sound/PizzStr/' + allSounds[i] + '.ogg';
+    audio.src = 'sound/PizzStr/' + allSounds[i] + '.mp3';
 	}
 }
 
