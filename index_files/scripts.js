@@ -37,10 +37,8 @@ var imgOffsetLeftNorm;
 var imgOffsetTopBigger;
 var imgOffsetLeftBigger;
 
-// redraw the slider on refresh
 $(document).ready(function(){
-	getId('tempo-slider').value = 85;
-	getId('looping').value = "none";
+	var value = $('input:radio[name=looping][value=no]').prop('checked', true);
 	fill_songs();
 	preload_sounds();
 });
@@ -48,15 +46,25 @@ $(document).ready(function(){
 // export song as downloadable JSON
 function download() {
 	var currName = getId('song-name').value;
-	var dataStr = "data:text/json;charset=utf-8," +
-		encodeURIComponent(
-			JSON.stringify(getObjects(songObj, 'name', currName)[0])
-		);
+	var fName = currName + '.json';
+	var json = JSON.stringify(getObjects(songObj, 'name', currName)[0]);
+
+	// IE
+	if (navigator.msSaveBlob) {
+		navigator.msSaveBlob(new Blob([json], {type: 'text/plain'}), fName);
+		return;
+	}
+
+	var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
 
 	var dlAnchorElem = getId('download');
-	dlAnchorElem.setAttribute('href',     dataStr     );
-	dlAnchorElem.setAttribute('download', currName + '.json');
+	dlAnchorElem.setAttribute('href', dataStr);
+	dlAnchorElem.setAttribute('download', fName);
 	dlAnchorElem.click();
+}
+
+function file_read_click() {
+	getId('mFile').click();
 }
 
 // read a file
@@ -422,10 +430,12 @@ function forward() {
 	mUnfadeAndScrollTo();
 }
 
-// this get called from the tempo slider
+// this get called from the tempo buttons
 function vary_speed(value) {
-	speed = 700 - (value)*6.5;
-	getId('tempo').innerHTML = value;
+	if ((speed < 60 && value < 0) || (speed > 345 && value > 0))
+		return;
+	speed = speed + value;
+	getId('tempo').innerHTML = speed - 50;	// looks nicer to cap on 100
 }
 
 function set_looping (value) {

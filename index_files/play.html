@@ -58,52 +58,36 @@
 
             <div id="adv-menu">
 
-              <div style="margin-top: 10px;">
-                <div class="nopad">
-                <table style="vertical-align:middle">
-                  <tr>
-                    <td>
-                      <span class="glyphicon glyphicon-repeat"></span>
-                    </td>
-                    <td>
-                      <select style="margin-left: 5px; width:100px;" id="looping" class="form-control"
-                              onchange="set_looping(this.value);">
-                        <option value="none">no</option>
-                        <option value="tact">tact</option>
-                        <option value="song">song</option>
-                      </select>
-                    </td>
-                  </tr>
-                </table>
-                </div>
-                <div class="nopad" style="margin-left:10px; margin-top: 5px;width: 200px; height: 50px;">
-                  tempo: <span id="tempo">85</span><input id="tempo-slider" name="slider" type="range" min="1" max="100" step="1" value="85"
-                                oninput="vary_speed(value)" style="width:100px"/>
-                </div>
+              <div class="menu-row semi-gray">
+                <div class="glyphicon glyphicon-repeat" style="display: inline-block; margin-top: 5px; margin-right: 5px;"></div>
+                <label class="radio-inline">
+                  <input type="radio" name="looping" value="no" onchange="set_looping(this.value);" checked="checked" />no
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="looping" value="tact" onchange="set_looping(this.value);" />tact
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="looping" value="song" onchange="set_looping(this.value);" />song
+                </label>
               </div>
 
-              <div style="height: 80px">
-                <div style="width: 180px;margin:auto">
-                  <div class="nopad">
-                    <div class="btn btn-lg btn-default btn-file" style="width:60px">
-                        <span class="glyphicon glyphicon-open"></span>
-                        <input id="mFile" type="file" style="display: none" onchange="file_read()" />
-                    </div>
-                  </div>
-                  <div class="nopad">
-                    <a id="download" href="javascript: download()">
-                      <div class="btn btn-lg btn-default" style="width:60px">
-                        <span class="glyphicon glyphicon-save"></span>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="nopad">
-                    <a href="javascript: show_create()">
-                      <div class="btn btn-lg btn-default" style="width:60px">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                      </div>
-                    </a>
-                  </div>
+              <div class="menu-row semi-gray">
+                tact span: <button class="pd btn btn-sm btn-default" onclick="vary_speed(-5)">-</button>
+                <span id="tempo" style="margin-left: 5px; margin-right: 5px">100</span>%
+                <button class="pd btn btn-sm btn-default" onclick="vary_speed(5)">+</button>
+              </div>
+
+              <div class="menu-row">
+                <div class="btn btn-lg btn-default btn-file" style="width:60px" onclick="file_read_click()">
+                    <span class="glyphicon glyphicon-open"></span>
+                    <input id="mFile" type="file" style="display: none" onchange="file_read()" />
+                </div>
+                <div class="btn btn-lg btn-default" style="width:60px" onclick="download()">
+                  <a id="download" href="#"></a>
+                  <span class="glyphicon glyphicon-save"></span>
+                </div>
+                <div class="btn btn-lg btn-default" style="width:60px" onclick="show_create()">
+                  <span class="glyphicon glyphicon-pencil"></span>
                 </div>
               </div>
 
