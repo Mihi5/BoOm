@@ -1,11 +1,12 @@
-var allSounds =
+var allSoundNames =
 [
 	"",
 	"C0","Cis0","D0","Dis0","E0","F0","Fis0","G0","Gis0","A0","Ais0","B0",
 	"C","Cis","D","Dis","E","F","Fis","G","Gis","A","Ais","B",
 	"C1"
 ];
-var allSoundsLen = allSounds.length;
+var allSoundsLen = allSoundNames.length;
+var allSounds = [];
 
 var songObj;
 var mNewSong;
@@ -136,7 +137,7 @@ function set_sizes() {
 
 	// calculate offsets
 	imgOffsetTopNorm = '-' + imgSizeNorm/2 + 'px';
-	imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
+	//imgOffsetLeftNorm = '-' + imgSizeNorm/2 + 'px';
 	imgOffsetTopBigger = '-' + imgSizeBigger/2 + 'px';
 	imgOffsetLeftBigger = '-' + imgSizeBigger/2 + 'px';
 	//imgOffsetTopNorm = imgOffsetTopBigger = 0;
@@ -148,35 +149,12 @@ function getId (id){
 }
 
 // plays up to 4 sounds simultaneously
-function play_sound(s0, s1, s2, s3) {
-	var snd0;	var snd1; var snd2; var snd3;
-
-	if (s0 != '') {
-		snd0 = new Audio('sound/PizzStr/' + s0 + '.mp3');
-		//console.log('s0: ' + s0 + '.mp3');
-		snd0.mediaGroup = 'soundGroup';
-		snd0.play();
-	}
-
-	if (s1 != '') {
-		snd1 = new Audio('sound/PizzStr/' + s1 + '.mp3');
-		//console.log('s1: ' + s1 + '.mp3');
-		snd1.mediaGroup = 'soundGroup';
-		snd1.play();
-	}
-
-	if (s2 != '') {
-		snd2 = new Audio('sound/PizzStr/' + s2 + '.mp3');
-		//console.log('s2: ' + s2 + '.mp3');
-		snd2.mediaGroup = 'soundGroup';
-		snd2.play();
-	}
-
-	if (s3 != '') {
-		snd3 = new Audio('sound/PizzStr/' + s3 + '.mp3');
-		//console.log('s3: ' + s3 + '.mp3');
-		snd3.mediaGroup = 'soundGroup';
-		snd3.play();
+function play_sound(sounds) {
+	var max = 4;
+	for (var i = 0; i < max; i++) {
+		if (sounds[i] != '') {
+			allSounds[allSoundNames.indexOf(sounds[i])].play();
+		}
 	}
 }
 
@@ -195,7 +173,7 @@ function grow(col) {
 			toBePlayed[i] = getId(mId).alt;
 		}
 	}
-	play_sound(toBePlayed[0],toBePlayed[1],toBePlayed[2],toBePlayed[3]);
+	play_sound(toBePlayed);
 }
 
 // hides an arrow and normalize the respective row
@@ -285,8 +263,8 @@ function change_song (song) {
 						'onchange="' +
 							'selectorChange(' + t + ',' + i + ',' + k + ',this)">';
 					for (var p = 0; p < allSoundsLen; p++) {
-						filler += '<option value="' + allSounds[p] + '">' +
-												allSounds[p] +
+						filler += '<option value="' + allSoundNames[p] + '">' +
+												allSoundNames[p] +
 											'</option>';
 					}
 				filler +=
@@ -507,15 +485,16 @@ function go_create() {
 	currSong = songObj.songs[songObj.songs.length - 1];
 }
 
-// preload all ogg in the browser
-// https://stackoverflow.com/a/31351186/6049386
+// preload all sounds using howler.js
+// https://github.com/goldfire/howler.js/
 function preload_sounds() {
 	for (var i = 1; i < allSoundsLen; i++) {
-    var audio = new Audio();
+    allSounds[i] = new Howl({src: ['sound/PizzStr/' + allSoundNames[i] + '.mp3']});
     // once this file loads, it will call loadedAudio()
     // the file will be kept by the browser as cache
-    audio.addEventListener('canplaythrough', loadedAudio, false);
-    audio.src = 'sound/PizzStr/' + allSounds[i] + '.mp3';
+    allSounds[i].once('load', function(){
+			loadedAudio();
+		});
 	}
 }
 
