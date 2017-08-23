@@ -145,3 +145,10 @@ td {
 .semi-gray {
   border: 1px rgba(150,150,150,0.5) solid;
 }
+#language {
+  width:100%;
+  text-align: right;
+}
+#language img {
+  margin-left: 5px;
+}
